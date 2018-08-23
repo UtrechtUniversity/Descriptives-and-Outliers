@@ -15,9 +15,6 @@
 
 
 
-
-
-
 # Loading libraries
 library(shiny)
 library(stringr)
@@ -62,7 +59,7 @@ server <- function(input, output) {
 
 # The user needs to click on the action button labeled "Draw Sample" for the plot and descriptives to appear
   data<-eventReactive(input$do_sample,
-                      {rnorm(input$samplesize, 7,3)})
+                      {abs(rnorm(input$samplesize, 7,3))})
 # Draws boxplot in the first row of the app
     output$plot1 <- renderPlot({
 
@@ -87,8 +84,11 @@ server <- function(input, output) {
       if(input$transform=="Calculate z-scores"){
         y=(data()-mean(data()))/sd(data())
               }
-    boxplot(y,xlab="x",ylab="", xlim =c(0,2) , ylim=c(-2,30), main = "Boxplot ", horizontal = TRUE)
-
+    boxplot(y,xlab="x",ylab="",
+            boxwex =  1.7,
+            xlim =c(0,2) , ylim=c(-2,30), main = "Boxplot ",
+            horizontal = TRUE)
+    rug(y)
        abline(v=mean(y),col="blue")
        abline(v=median(y), col="red")
 

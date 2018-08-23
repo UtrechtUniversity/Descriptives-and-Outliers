@@ -23,27 +23,27 @@ ui <- dashboardPage(skin = "black",
                                      sidebarMenu(#menuItem("", tabName = "home", icon = icon("home")),
                                        menuItem("Descriptive Statistics", tabName = "tab1"),
                                        menuItem("Disclaimer", tabName = "Disclaimer"),
-                                       HTML("<br><br><br><br><br><br><br><br><br><br><br><br><br><br>"),
-                                       img(src= "logo.png", align = "left"),
-                                       HTML("<br><br><br><br><br><br><br>"),
-                                       div("Shiny app by",
+                                       HTML("<br><br><br><br><br>"),
+                                       div("- Shiny app by",
                                            a(href="https://www.uu.nl/staff/MMiocevic",
                                              target = "_blank",
                                              #"Milica Mio&#269;evi&#263;"),align="right", style = "font-size: 10pt"),
-                                             "Milica Miocevic"),align="right", style = "font-size: 10pt"),
+                                             "Milica Miocevic"),align="left", style = "font-size: 10pt"),
 
-                                       div("Base R code by",
+                                       div("- Base R code by",
                                            a(href="https://www.uu.nl/staff/mmiocevic",target="_blank",
                                              #"Milica Mio&#269;evi&#263;"),align="right", style = "font-size: 10pt"),
-                                             "Milica Miocevic"),align="right", style = "font-size: 10pt"),
+                                             "Milica Miocevic"),align="left", style = "font-size: 10pt"),
 
-                                       div("Base Layout by",
+                                       div("- Base Layout by",
                                            a(href="https://www.uu.nl/medewerkers/KMLek/0",target="_blank",
-                                             "Kimberley Lek"),align="right", style = "font-size: 10pt"),
+                                             "Kimberley Lek"),align="left", style = "font-size: 10pt"),
 
-                                       div("Shiny source files:",
+                                       div("- Shiny source files:",
                                            a(href="https://github.com/EducationalShinyUU/Descriptives_and_outliers_shiny",
-                                             target="_blank","GitHub"),align="right", style = "font-size: 10pt")
+                                             target="_blank","GitHub"),align="left", style = "font-size: 10pt"),
+                                       HTML("<br><br><br><br><br><br><br><br><br><br><br><br><br><br>"),
+                                       img(src= "logo.png", align = "bottom")
                                      ) #end sidebarMenu
                     ), #end dashboardsidebar
                     dashboardBody(
@@ -122,25 +122,37 @@ ui <- dashboardPage(skin = "black",
                         tabItem(tabName = "tab1",
 
                                 title = "Descriptives and Outliers",
-                                plotOutput("plot1"),
+                                plotOutput("plot1", height = "250px"),
                                 hr(),
+                                box(width = 12,
 
                                  fluidRow(
-                                   column(6,
+                                   column(4,
                                        selectInput("samplesize", "Sample size:",
                                                    choices = c(10,30,100),
-                                                   multiple = FALSE),
-                                       radioButtons("transform", "Changes to the data:",
-                                                    c("None", "Add Outlier", "Add 5 points to each score",
-                                                      "Multiply all scores by 2", "Divide all scores by 2","Calculate z-scores"))),
+                                                   multiple = FALSE)
+                                       ),
+                                       column(8,
+                                              br(),
+                                              HTML('<div style="height: 6px;">&nbsp;</div>'),
+                                              actionButton("do_sample", "Draw sample")
+                                       )
 
-                                       column(6,
-                                              actionButton("do_sample", "Draw sample"), # find a way to put drop-down and button on same level
-                                              uiOutput("descriptives"))
-
-                                   ) # end fluidRow
+                                   ), # end fluidRow
+                                   hr(),
+                                fluidRow(column(4,
+                                                radioButtons("transform", "Changes to the data:",
+                                                             c("None", "Add Outlier", "Add 5 points to each score",
+                                                               "Multiply all scores by 2", "Divide all scores by 2","Calculate z-scores"))
+                                                ),
+                                         column(5,
+                                              strong("Descriptive statistics:"),
+                                                uiOutput("descriptives")
+                                                )
+                                ) # end fluidRow
+                                ) #end box
                                 ) # end tabItem (Descriptives tab)
 
-                                       ) # end tabItems
-                                    ) # end dashboardbody
-                                ) # end dashboardpage
+                        ) # end tabItems
+                      ) # end dashboardbody
+                    ) # end dashboardpage
